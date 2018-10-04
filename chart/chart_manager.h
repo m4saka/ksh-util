@@ -25,4 +25,5 @@ public:
 
     void refreshParamKeys();
     void updateChartList(const std::vector<std::string> & filenames);
+    void changeMetaDataValueForAll(std::string key, std::string value);
 };

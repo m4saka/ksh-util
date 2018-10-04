@@ -27,5 +27,5 @@ public:
         return instance;
     }
 
-    void updateParamKeys(std::vector<std::string> paramKeys);
+    void updateParams(std::unordered_map<std::string, std::string> params);
 };

@@ -1,5 +1,6 @@
 #include "form.h"
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include <cstddef>
 #include <URLParser.hpp>
@@ -56,9 +57,17 @@ Form::Form()
         if (selections.size() == 1)
         {
             auto && paramItem = m_paramListbox.at(selections[0]);
+            std::string key = paramItem.text(0);
             nana::inputbox::text textBox("", paramItem.text(1));
-            nana::inputbox inbox(m_form, paramItem.text(0) + "=?", "Change value");
-            inbox.show_modal(textBox);
+            nana::inputbox inbox(m_form, key + "=?", "Change value");
+            if (inbox.show(textBox))
+            {
+                paramItem.text(1, textBox.value());
+                if (textBox.value() != "####")
+                {
+                    ChartManager::getInstance().changeMetaDataValueForAll(key, textBox.value());
+                }
+            }
         }
     });
 
@@ -80,11 +89,11 @@ void Form::fileListChanged()
     ChartManager::getInstance().updateChartList(filenames);
 }
 
-void Form::updateParamKeys(std::vector<std::string> paramKeys)
+void Form::updateParams(std::unordered_map<std::string, std::string> params)
 {
     m_paramListbox.clear();
-    for (auto && paramKey : paramKeys)
+    for (auto && param : params)
     {
-        m_paramListbox.at(0).append({paramKey, ""});
+        m_paramListbox.at(0).append({param.first, param.second});
     }
 }

@@ -1,25 +1,27 @@
 #include "chart_manager.h"
-#include <unordered_set>
+#include <unordered_map>
 
 #include "gui/form.h"
 
 void ChartManager::refreshParamKeys()
 {
-    std::unordered_set<std::string> paramKeys;
-    std::vector<std::string> paramKeysInOrder;
+    std::unordered_map<std::string, std::string> params;
     for (auto && chart : m_charts)
     {
         for (auto && param : chart.meta)
         {
-            if (paramKeys.count(param.first))
+            if (params.count(param.first))
             {
+                if (param.second != params[param.first])
+                {
+                    params[param.first] = "####";
+                }
                 continue;
             }
-            paramKeys.insert(param.first);
-            paramKeysInOrder.push_back(param.first);
+            params.insert(param);
         }
     }
-    Form::getInstance().updateParamKeys(paramKeysInOrder);
+    Form::getInstance().updateParams(params);
 }
 
 void ChartManager::updateChartList(const std::vector<std::string> & filenames)
@@ -30,4 +32,16 @@ void ChartManager::updateChartList(const std::vector<std::string> & filenames)
         m_charts.emplace_back(filename);
     }
     refreshParamKeys();
+}
+
+void ChartManager::changeMetaDataValueForAll(std::string key, std::string value)
+{
+    for (auto && chart : m_charts)
+    {
+        if (chart.meta[key] != value)
+        {
+            chart.meta[key] = value;
+            chart.save();
+        }
+    }
 }
