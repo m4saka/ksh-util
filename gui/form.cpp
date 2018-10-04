@@ -2,7 +2,10 @@
 #include <vector>
 #include <string>
 #include <URLParser.hpp>
+#include <boost/filesystem.hpp>
 #include "chart/chart_manager.h"
+
+namespace fs = boost::filesystem;
 
 Form::Form()
     : m_form(nana::rectangle(nana::API::make_center(600, 400)))
@@ -18,10 +21,29 @@ Form::Form()
     m_fileListbox.events().mouse_dropfiles([&](const nana::arg_dropfiles& arg){
         for (auto && file : arg.files)
         {
-            std::string fullPath = http::URLDecode(file);
-            auto slashPos = fullPath.find_last_of('/');
-            std::string filename = slashPos == std::string::npos ? fullPath : fullPath.substr(slashPos + 1);
-            m_fileListbox.at(0).append({filename, fullPath});
+            fs::path filePath = http::URLDecode(file);
+            if (!fs::exists(filePath))
+            {
+                continue;
+            }
+
+            if (fs::is_directory(filePath))
+            {
+                fs::recursive_directory_iterator it(filePath), last;
+                while (it != last)
+                {
+                    auto path = it->path();
+                    if (fs::extension(path) == ".ksh")
+                    {
+                        m_fileListbox.at(0).append({path.filename().string(), path.string()});
+                    }
+                    ++it;
+                }
+            }
+            else if (fs::extension(filePath) == ".ksh")
+            {
+                m_fileListbox.at(0).append({filePath.filename().string(), filePath.string()});
+            }
         }
     });
 
