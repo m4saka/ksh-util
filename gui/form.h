@@ -13,7 +13,7 @@ private:
     nana::listbox m_paramListbox;
     Form();
     ~Form() = default;
-    void fileListChanged(nana::listbox::index_pairs indexPairs);
+    void fileListChanged();
 
 public:
     Form(const Form &) = delete;

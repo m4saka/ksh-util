@@ -1,6 +1,7 @@
 #include "form.h"
 #include <vector>
 #include <string>
+#include <cstddef>
 #include <URLParser.hpp>
 #include <boost/filesystem.hpp>
 #include "chart/chart_manager.h"
@@ -45,10 +46,7 @@ Form::Form()
                 m_fileListbox.at(0).append({filePath.filename().string(), filePath.string()});
             }
         }
-    });
-
-    m_fileListbox.events().selected([&](){
-        fileListChanged(m_fileListbox.selected());
+        fileListChanged();
     });
 
     m_paramListbox.append_header("key", 120);
@@ -61,12 +59,12 @@ Form::Form()
     m_form.show();
 }
 
-void Form::fileListChanged(nana::listbox::index_pairs indexPairs)
+void Form::fileListChanged()
 {
     std::vector<std::string> filenames;
-    for (auto && indexPair : indexPairs)
+    for (std::size_t i = 0; i < m_fileListbox.at(0).size(); ++i)
     {
-        filenames.push_back(m_fileListbox.at(indexPair).text(1));
+        filenames.push_back(m_fileListbox.at(0).at(i).text(1));
     }
 
     ChartManager::getInstance().updateChartList(filenames);
