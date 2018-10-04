@@ -4,7 +4,7 @@ LDFLAGS  = -lnana -lX11 -lpthread -lrt -ldl -lfreetype -lXft -lfontconfig -lasou
 
 all: ksh-util
 
-ksh-util: main.cpp
+ksh-util: main.cpp gui/form.cpp
 	$(CC) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
 
 .PHONY: clean
