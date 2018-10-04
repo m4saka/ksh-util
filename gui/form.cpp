@@ -50,6 +50,7 @@ Form::Form()
         fileListChanged();
     });
 
+    m_paramListbox.enable_single(true, false);
     m_paramListbox.append_header("key", 120);
     m_paramListbox.append_header("value", 290);
     m_paramListbox.events().dbl_click([&](){
