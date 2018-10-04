@@ -51,6 +51,16 @@ Form::Form()
 
     m_paramListbox.append_header("key", 120);
     m_paramListbox.append_header("value", 290);
+    m_paramListbox.events().dbl_click([&](){
+        auto selections = m_paramListbox.selected();
+        if (selections.size() == 1)
+        {
+            auto && paramItem = m_paramListbox.at(selections[0]);
+            nana::inputbox::text textBox("", paramItem.text(1));
+            nana::inputbox inbox(m_form, paramItem.text(0) + "=?", "Change value");
+            inbox.show_modal(textBox);
+        }
+    });
 
     m_form.div("<filelist width=180> <paramlist>");
     m_form["filelist"] << m_fileListbox;
