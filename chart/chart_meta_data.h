@@ -36,5 +36,25 @@ public:
 
     friend std::ostream & operator<<(std::ostream & os, const ChartMetaData & obj);
 
+    auto begin()
+    {
+        return m_params.begin();
+    }
+
+    auto end()
+    {
+        return m_params.end();
+    }
+
+    auto cbegin()
+    {
+        return m_params.cbegin();
+    }
+
+    auto cend()
+    {
+        return m_params.cend();
+    }
+
     std::string toString() const;
 };

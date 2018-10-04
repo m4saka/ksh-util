@@ -1,5 +1,8 @@
 #include "form.h"
+#include <vector>
+#include <string>
 #include <URLParser.hpp>
+#include "chart/chart_manager.h"
 
 Form::Form()
     : m_form(nana::rectangle(nana::API::make_center(600, 400)))
@@ -23,7 +26,7 @@ Form::Form()
     });
 
     m_fileListbox.events().selected([&](){
-        updateParamList(m_fileListbox.selected());
+        fileListChanged(m_fileListbox.selected());
     });
 
     m_paramListbox.append_header("key", 120);
@@ -36,10 +39,22 @@ Form::Form()
     m_form.show();
 }
 
-void Form::updateParamList(nana::listbox::index_pairs indexPairs)
+void Form::fileListChanged(nana::listbox::index_pairs indexPairs)
 {
+    std::vector<std::string> filenames;
     for (auto && indexPair : indexPairs)
     {
-        std::cout << m_fileListbox.at(indexPair).text(1) << std::endl;
+        filenames.push_back(m_fileListbox.at(indexPair).text(1));
+    }
+
+    ChartManager::getInstance().updateChartList(filenames);
+}
+
+void Form::updateParamKeys(std::vector<std::string> paramKeys)
+{
+    m_paramListbox.clear();
+    for (auto && paramKey : paramKeys)
+    {
+        m_paramListbox.at(0).append({paramKey, ""});
     }
 }

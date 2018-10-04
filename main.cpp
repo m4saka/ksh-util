@@ -4,8 +4,7 @@
 
 int main()
 {
-    Form form;
+    Form::getInstance();
     nana::exec();
-
     return 0;
 }
