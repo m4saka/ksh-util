@@ -70,6 +70,7 @@ Form::Form()
         }
     });
 
+    m_form.caption("ksh-util");
     m_form.div("<filelist width=180> <paramlist>");
     m_form["filelist"] << m_fileListbox;
     m_form["paramlist"] << m_paramListbox;
