@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include <nana/gui/wvl.hpp>
 #include <nana/gui/widgets/listbox.hpp>
 
