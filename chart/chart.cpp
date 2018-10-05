@@ -1,6 +1,8 @@
 #include "chart.h"
 #include <fstream>
 
+static std::string BOM = "\xEF\xBB\xBF";
+
 Chart::Chart(std::string filename)
     : m_filename(filename)
     , meta(filename)
@@ -10,7 +12,7 @@ Chart::Chart(std::string filename)
 
 std::ostream & operator<<(std::ostream & os, const Chart & obj)
 {
-    os << obj.meta << "--\r\n" << obj.body;
+    os << BOM << obj.meta << "--\r\n" << obj.body;
     return os;
 }
 
