@@ -6,6 +6,7 @@
 void ChartManager::refreshParamKeys()
 {
     std::unordered_map<std::string, std::string> params;
+    bool firstChart = true;
     for (auto && chart : m_charts)
     {
         for (auto && param : chart.meta)
@@ -18,8 +19,24 @@ void ChartManager::refreshParamKeys()
                 }
                 continue;
             }
+            if (!firstChart)
+            {
+                param.second = "####";
+            }
             params.insert(param);
         }
+
+        for (auto && param : params)
+        {
+            if (chart.meta.count(param.first) == 0)
+            {
+                params[param.first] = "####";
+                continue;
+            }
+            params.insert(param);
+        }
+
+        firstChart = false;
     }
     Form::getInstance().updateParams(params);
 }
