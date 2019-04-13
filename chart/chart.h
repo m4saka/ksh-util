@@ -8,11 +8,11 @@
 struct Chart
 {
 public:
-    std::string m_filename;
+    const std::string m_filename;
     ChartMetaData meta;
     ChartBody body;
 
-    Chart(std::string filename);
+    Chart(const std::string & filename);
 
     friend std::ostream & operator<<(std::ostream & os, const Chart & obj);
     void save() const;

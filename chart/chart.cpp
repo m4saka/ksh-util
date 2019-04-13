@@ -1,9 +1,9 @@
 #include "chart.h"
 #include <fstream>
 
-static std::string BOM = "\xEF\xBB\xBF";
+static const std::string BOM = "\xEF\xBB\xBF";
 
-Chart::Chart(std::string filename)
+Chart::Chart(const std::string & filename)
     : m_filename(filename)
     , meta(filename)
     , body(filename)
