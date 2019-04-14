@@ -1,8 +1,9 @@
 #include "chart_meta_data.h"
-#include <cassert>
 #include <vector>
+#include <unordered_map>
 #include <fstream>
 #include <sstream>
+#include <cassert>
 
 ChartMetaData::ChartMetaData(const std::string & filename)
 {
