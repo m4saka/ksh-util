@@ -3,12 +3,12 @@
 #include <iostream>
 #include <string>
 #include <cstddef>
-#include <unordered_map>
+#include <map>
 
 class ChartMetaData
 {
 private:
-    std::unordered_map<std::string, std::string> m_params;
+    std::map<std::string, std::string> m_params;
 
 public:
     ChartMetaData() = default;
